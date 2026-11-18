@@ -1,0 +1,25 @@
+name: Build Wii DOL
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkitppc:latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile boot.dol
+        run: make
+
+      - name: Upload boot.dol artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wii-cartman-dol
+          path: "*.dol"
